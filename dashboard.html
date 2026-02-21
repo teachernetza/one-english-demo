@@ -6,132 +6,172 @@
     <title>Dashboard</title>
     <style>
         :root {
-            --bg-color: #f9fafb;
+            --bg-color: #f3f4f6;
             --card-bg: #ffffff;
             --text-main: #111827;
             --text-muted: #6b7280;
-            --border-color: #e5e7eb;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
             --danger: #ef4444;
             --danger-hover: #dc2626;
+            --border: #e5e7eb;
         }
 
         body {
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
+            margin: 0;
+            padding: 2rem 1rem;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 1rem;
-            box-sizing: border-box;
         }
 
         #loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 1.125rem;
             color: var(--text-muted);
         }
 
-        .card {
+        .container {
             display: none;
-            background: var(--card-bg);
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 400px;
+            max-width: 800px;
+        }
+
+        header {
+            margin-bottom: 2rem;
             text-align: center;
         }
 
-        .card h2 {
-            margin: 0 0 1rem 0;
-            font-size: 1.5rem;
-            font-weight: 600;
+        h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
         }
 
-        .card p {
-            margin: 0 0 2rem 0;
+        .user-info {
             color: var(--text-muted);
             font-size: 0.95rem;
-            word-break: break-all;
         }
 
-        .card strong {
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
             color: var(--text-main);
-        }
-
-        button {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
+            transition: all 0.2s ease;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        button:hover {
-            background-color: var(--danger-hover);
+        .card-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-color: var(--primary);
         }
 
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
+        .card-btn h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .card-btn p {
+            margin: 0.5rem 0 0 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .logout-btn {
+            border-color: #fca5a5;
+        }
+
+        .logout-btn:hover {
+            border-color: var(--danger);
+            background-color: #fef2f2;
+        }
+
+        .logout-btn h2 {
+            color: var(--danger);
         }
     </style>
 </head>
 <body>
 
-    <div id="loader">Verificando sesión...</div>
+    <div id="loader">Cargando panel...</div>
 
-    <div class="card" id="dashboardCard">
-        <h2>Dashboard</h2>
-        <p>Sesión iniciada como:<br><strong id="userEmail"></strong></p>
-        <button id="btnLogout">Cerrar sesión</button>
+    <div class="container" id="app-content">
+        <header>
+            <h1>Panel Principal</h1>
+            <div class="user-info">Sesión: <strong id="userEmail"></strong></div>
+        </header>
+
+        <div class="grid-menu">
+            <a href="guides.html" class="card-btn">
+                <h2>Guías</h2>
+                <p>Material de estudio y referencias</p>
+            </a>
+            
+            <a href="worksheet.html" class="card-btn">
+                <h2>Worksheets</h2>
+                <p>Prácticas y ejercicios interactivos</p>
+            </a>
+            
+            <a href="progress.html" class="card-btn">
+                <h2>Progreso</h2>
+                <p>Estadísticas y calificaciones</p>
+            </a>
+            
+            <div class="card-btn logout-btn" id="btnLogout">
+                <h2>Cerrar Sesión</h2>
+                <p>Salir de tu cuenta</p>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-        // ========================================================================
-        // REEMPLAZA CON TUS CLAVES DE SUPABASE
-        // ========================================================================
         const supabaseUrl = "https://paflxyknupowugyqkhlz.supabase.co";
         const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0";
-        
         const supabase = createClient(supabaseUrl, supabaseAnonKey);
-        // ========================================================================
 
         const loader = document.getElementById('loader');
-        const dashboardCard = document.getElementById('dashboardCard');
+        const appContent = document.getElementById('app-content');
         const userEmailEl = document.getElementById('userEmail');
         const btnLogout = document.getElementById('btnLogout');
 
-        async function checkSession() {
-            const { data: { user }, error } = await supabase.auth.getUser();
+        async function initDashboard() {
+            const { data, error } = await supabase.auth.getUser();
 
-            if (error || !user) {
-                // No hay sesión válida, redirigir
+            if (error || !data.user) {
                 window.location.replace('index.html');
             } else {
-                // Hay sesión, mostrar dashboard
                 loader.style.display = 'none';
-                dashboardCard.style.display = 'block';
-                userEmailEl.textContent = user.email;
+                appContent.style.display = 'block';
+                userEmailEl.textContent = data.user.email;
             }
         }
 
-        checkSession();
+        initDashboard();
 
         btnLogout.addEventListener('click', async () => {
-            btnLogout.disabled = true;
-            btnLogout.textContent = 'Cerrando sesión...';
-            
+            btnLogout.style.opacity = '0.5';
             await supabase.auth.signOut();
             window.location.replace('index.html');
         });
