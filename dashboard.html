@@ -6,14 +6,11 @@
     <title>Dashboard</title>
     <style>
         :root {
-            --bg-color: #f3f4f6;
-            --sidebar-bg: #1f2937;
-            --sidebar-text: #f9fafb;
-            --sidebar-hover: #374151;
+            --bg-color: #f9fafb;
             --card-bg: #ffffff;
             --text-main: #111827;
             --text-muted: #6b7280;
-            --primary: #2563eb;
+            --border-color: #e5e7eb;
             --danger: #ef4444;
             --danger-hover: #dc2626;
         }
@@ -21,271 +18,124 @@
         body {
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
-            margin: 0;
-            display: flex;
-            height: 100vh;
             color: var(--text-main);
-        }
-
-        /* Pantalla de carga inicial */
-        #loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            font-size: 1.2rem;
-            font-weight: bold;
+            height: 100vh;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
         }
 
-        /* Contenedor principal (oculto hasta verificar sesión) */
-        #app-container {
-            display: none;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Barra lateral */
-        .sidebar {
-            width: 250px;
-            background-color: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-bottom: 1px solid var(--sidebar-hover);
-            text-align: center;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 1rem 0;
-        }
-
-        .nav-item {
-            padding: 1rem 1.5rem;
-            display: block;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: background 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-item:hover {
-            background-color: var(--sidebar-hover);
-        }
-
-        .sidebar-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--sidebar-hover);
-        }
-
-        #btnLogout {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        #btnLogout:hover {
-            background-color: var(--danger-hover);
-        }
-
-        /* Contenido Principal */
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-            overflow-y: auto;
-        }
-
-        .header {
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            margin: 0 0 0.5rem 0;
-        }
-
-        /* Grid de tarjetas de información */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        #loader {
+            font-size: 1.125rem;
+            color: var(--text-muted);
         }
 
         .card {
+            display: none;
             background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
         }
 
-        .card h3 {
-            margin-top: 0;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .card h2 {
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .card p {
-            margin: 0;
-            font-size: 1.2rem;
-            font-weight: bold;
+            margin: 0 0 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
             word-break: break-all;
         }
 
-        .card .highlight {
-            color: var(--primary);
-            font-size: 1.8rem;
+        .card strong {
+            color: var(--text-main);
         }
 
-        /* Responsividad básica */
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-            }
-            .sidebar-footer {
-                padding: 1rem;
-            }
-            .main-content {
-                padding: 1rem;
-            }
+        button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--danger-hover);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
-<div id="loader">Verificando sesión...</div>
+    <div id="loader">Verificando sesión...</div>
 
-<div id="app-container">
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            Mi Proyecto
-        </div>
-        <nav class="sidebar-nav">
-            <a class="nav-item">Resumen</a>
-            <a class="nav-item">Configuración</a>
-            <a class="nav-item">Perfil</a>
-        </nav>
-        <div class="sidebar-footer">
-            <button id="btnLogout">Cerrar Sesión</button>
-        </div>
-    </aside>
+    <div class="card" id="dashboardCard">
+        <h2>Dashboard</h2>
+        <p>Sesión iniciada como:<br><strong id="userEmail"></strong></p>
+        <button id="btnLogout">Cerrar sesión</button>
+    </div>
 
-    <main class="main-content">
-        <div class="header">
-            <h1>Panel de Control</h1>
-            <p style="color: var(--text-muted); margin: 0;">Bienvenido de nuevo.</p>
-        </div>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-        <div class="info-grid">
-            <div class="card">
-                <h3>Usuario / Email</h3>
-                <p id="userEmail">Cargando...</p>
-            </div>
-            <div class="card">
-                <h3>ID de Cuenta</h3>
-                <p id="userId" style="font-size: 0.9rem; font-weight: normal; color: var(--text-muted);">Cargando...</p>
-            </div>
-            <div class="card">
-                <h3>Último Acceso</h3>
-                <p id="lastSignIn">Cargando...</p>
-            </div>
-            
-            <div class="card">
-                <h3>Estudiantes Registrados</h3>
-                <p class="highlight">48</p>
-            </div>
-            <div class="card">
-                <h3>Próximo Evento</h3>
-                <p>Ceremonia de Graduación</p>
-            </div>
-            <div class="card">
-                <h3>Estado del Sistema</h3>
-                <p style="color: #10b981;">Activo y en línea</p>
-            </div>
-        </div>
-    </main>
-</div>
-
-<script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
-    // ========================================================================
-    // CONFIGURACIÓN DE SUPABASE: PEGA TUS CLAVES AQUÍ
-    // Reemplaza los textos entre comillas con tus datos (igual que en index.html)
-    // ========================================================================
-    const supabaseUrl = "REEMPLAZA_ESTO_CON_TU_PROJECT_URL";
-    const supabaseAnonKey = "REEMPLAZA_ESTO_CON_TU_PUBLISHABLE_ANON_KEY";
-    
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    // ========================================================================
-
-    const loader = document.getElementById('loader');
-    const appContainer = document.getElementById('app-container');
-    const userEmailEl = document.getElementById('userEmail');
-    const userIdEl = document.getElementById('userId');
-    const lastSignInEl = document.getElementById('lastSignIn');
-    const btnLogout = document.getElementById('btnLogout');
-
-    // Formatear fecha
-    function formatDate(dateString) {
-        if (!dateString) return 'Desconocido';
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        return new Date(dateString).toLocaleDateString('es-ES', options);
-    }
-
-    // Verificar sesión
-    async function checkAuth() {
-        const { data: { session }, error } = await supabase.auth.getSession();
-
-        if (error || !session) {
-            // No hay sesión, regresar al login
-            window.location.replace('index.html');
-        } else {
-            // Mostrar interfaz
-            loader.style.display = 'none';
-            appContainer.style.display = 'flex';
-
-            // Inyectar datos reales del usuario
-            const user = session.user;
-            userEmailEl.textContent = user.email;
-            userIdEl.textContent = user.id;
-            lastSignInEl.textContent = formatDate(user.last_sign_in_at);
-        }
-    }
-
-    checkAuth();
-
-    // Lógica de Cerrar Sesión
-    btnLogout.addEventListener('click', async () => {
-        btnLogout.disabled = true;
-        btnLogout.textContent = 'Cerrando...';
+        // ========================================================================
+        // REEMPLAZA CON TUS CLAVES DE SUPABASE
+        // ========================================================================
+        const supabaseUrl = "AQUI_VA_PROJECT_URL";
+        const supabaseAnonKey = "AQUI_VA_ANON_KEY";
         
-        await supabase.auth.signOut();
-        window.location.replace('index.html');
-    });
-</script>
+        const supabase = createClient(supabaseUrl, supabaseAnonKey);
+        // ========================================================================
+
+        const loader = document.getElementById('loader');
+        const dashboardCard = document.getElementById('dashboardCard');
+        const userEmailEl = document.getElementById('userEmail');
+        const btnLogout = document.getElementById('btnLogout');
+
+        async function checkSession() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+
+            if (error || !user) {
+                // No hay sesión válida, redirigir
+                window.location.replace('index.html');
+            } else {
+                // Hay sesión, mostrar dashboard
+                loader.style.display = 'none';
+                dashboardCard.style.display = 'block';
+                userEmailEl.textContent = user.email;
+            }
+        }
+
+        checkSession();
+
+        btnLogout.addEventListener('click', async () => {
+            btnLogout.disabled = true;
+            btnLogout.textContent = 'Cerrando sesión...';
+            
+            await supabase.auth.signOut();
+            window.location.replace('index.html');
+        });
+    </script>
 
 </body>
 </html>
