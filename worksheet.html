@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worksheet Book 1: Lessons 1-2</title>
+    
+    <link rel="stylesheet" href="css/styles.css">
+
     <style>
-        /* ==========================================================================
-           ELEGANT COLOR PALETTE & VARIABLES
-           ========================================================================== */
         :root {
             --bg-color: #f4f7f6;
             --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
+            --primary: #2563eb; /* Ajustado al azul de One English */
+            --primary-hover: #1d4ed8;
             --border: #e2e8f0;
             --input-bg: #f8fafc;
             --section-bg: #fdfdfd;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -32,9 +32,6 @@
             box-sizing: border-box;
         }
 
-        /* ==========================================================================
-           ANIMATIONS
-           ========================================================================== */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -43,12 +40,6 @@
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
         }
 
         #loader {
@@ -67,18 +58,13 @@
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* ==========================================================================
-           BANNERS & TOP BAR
-           ========================================================================== */
-        .brand-banner {
-            width: 100%;
+        /* Ajuste del logo para que use tu assets/images/logo.png */
+        .brand-logo {
+            width: auto;
+            max-width: 200px;
             height: auto;
-            max-height: 140px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             display: block;
+            margin: 0 auto 2rem auto;
         }
 
         .top-bar {
@@ -101,15 +87,11 @@
 
         .btn-back:hover { color: var(--primary); }
 
-        /* ==========================================================================
-           WORKSHEET CARD & SECTIONS
-           ========================================================================== */
         .worksheet-card {
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 3rem 2.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .worksheet-header {
@@ -154,9 +136,6 @@
             color: var(--text-main);
             margin-top: 0;
             margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .activity-instructions {
@@ -167,9 +146,6 @@
             font-style: italic;
         }
 
-        /* ==========================================================================
-           INPUT STYLES (INLINE & BLOCK)
-           ========================================================================== */
         .sentence-list {
             list-style: none;
             padding: 0;
@@ -182,7 +158,6 @@
             line-height: 2;
         }
 
-        /* Input for fill-in-the-blanks */
         .inline-input {
             width: 70px;
             padding: 0.2rem 0.5rem;
@@ -198,16 +173,13 @@
             box-sizing: border-box;
         }
 
-        /* Wider input for sentences */
-        .inline-input.wide {
-            width: 140px;
-        }
+        .inline-input.wide { width: 140px; }
 
         .inline-input:focus {
             outline: none;
             border-color: var(--primary);
             background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
             width: 90px;
         }
 
@@ -217,7 +189,7 @@
             width: 100%;
             background-color: var(--input-bg);
             border: 2px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 1rem;
             font-size: 1.05rem;
             color: var(--text-main);
@@ -233,24 +205,20 @@
             outline: none;
             border-color: var(--primary);
             background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
         }
 
-        /* ==========================================================================
-           BUTTONS & MESSAGES
-           ========================================================================== */
         .btn-submit {
             width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 1.25rem;
-            border-radius: 10px;
+            padding: 1rem;
+            border-radius: 8px;
             font-size: 1.15rem;
             font-weight: bold;
-            letter-spacing: 0.05em;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: background-color 0.2s ease;
             margin-top: 1rem;
             opacity: 0;
             animation: slideUp 0.6s ease forwards;
@@ -258,9 +226,7 @@
         }
 
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
-            animation: pulse 2s infinite;
+            background-color: var(--primary-hover);
         }
 
         .success-message {
@@ -284,7 +250,7 @@
 
     <div class="container" id="app-content">
         
-        <img class="brand-banner" src="AQUI_PONES_EL_LINK_DE_TU_LOGO_O_BANNER.png" alt="One English Banner" onerror="this.style.display='none'">
+        <img class="brand-logo" src="assets/images/logo.png" alt="One English Logo" onerror="this.style.display='none'">
 
         <div class="top-bar">
             <a href="dashboard.html" class="btn-back">
@@ -349,21 +315,16 @@
                 🎉 Great job! Your worksheet has been submitted successfully.
             </div>
         </main>
-        
-        <img class="brand-banner" src="AQUI_PONES_LINK_DEL_BANNER_FOOTER.png" style="margin-top: 2rem; margin-bottom: 0;" alt="Footer Banner" onerror="this.style.display='none'">
 
     </div>
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-        // ========================================================================
-        // CONFIGURACIÓN DE SUPABASE
-        // ========================================================================
+        // REEMPLAZA CON TUS CLAVES
         const supabaseUrl = "https://paflxyknupowugyqkhlz.supabase.co";
         const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0";
         const supabase = createClient(supabaseUrl, supabaseAnonKey);
-        // ========================================================================
 
         const loader = document.getElementById('loader');
         const appContent = document.getElementById('app-content');
@@ -379,7 +340,6 @@
             } else {
                 loader.style.display = 'none';
                 appContent.style.display = 'block';
-                // Muestra el correo del estudiante logueado arriba a la derecha
                 studentInfo.textContent = `Student: ${data.user.email}`; 
             }
         }
@@ -396,7 +356,6 @@
             setTimeout(() => {
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
-                // Scroll to top of the card smoothly
                 window.scrollTo({ top: document.querySelector('.worksheet-card').offsetTop - 50, behavior: 'smooth' });
             }, 1000);
         });
