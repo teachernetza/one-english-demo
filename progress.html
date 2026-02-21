@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progreso del Estudiante</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary: #2563eb;
+            --success: #10b981;
+            --border: #e5e7eb;
+            --bar-bg: #e5e7eb;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        #loader {
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: var(--text-muted);
+        }
+
+        .container {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        h1 { margin: 0; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .stat-card h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .progress-item {
+            margin-bottom: 1rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--bar-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success);
+            border-radius: 4px;
+        }
+        
+        .fill-blue { background-color: var(--primary); }
+
+        .recent-activity {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .activity-item {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">Cargando métricas...</div>
+
+    <div class="container" id="app-content">
+        <div class="top-bar">
+            <h1>Progreso del Estudiante</h1>
+            <a href="dashboard.html" class="btn-back">← Volver</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Resumen de Módulos</h3>
+                
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span>Gramática General</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill fill-blue" style="width: 85%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span>Worksheets Completados</span>
+                        <span>12/15</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Actividad Reciente</h3>
+                <div class="recent-activity" style="margin-top: 0; padding-top: 0; border: none;">
+                    <div class="activity-item">✅ Worksheet "Verbos Irregulares" enviado (Hoy)</div>
+                    <div class="activity-item">📖 Leyó "Guía 1: Estructuras Básicas" (Ayer)</div>
+                    <div class="activity-item">🎯 Logro desbloqueado: Racha de 3 días (Hace 3 días)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabaseUrl = "https://paflxyknupowugyqkhlz.supabase.co";
+        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0";
+        const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+        const loader = document.getElementById('loader');
+        const appContent = document.getElementById('app-content');
+
+        async function checkAuth() {
+            const { data, error } = await supabase.auth.getUser();
+            if (error || !data.user) {
+                window.location.replace('index.html');
+            } else {
+                loader.style.display = 'none';
+                appContent.style.display = 'block';
+            }
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
