@@ -142,59 +142,31 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <script>
-        // Inicialización de Supabase
-        const supabase = window.supabase.createClient(
-            "https://paflxyknupowugyqkhlz.supabase.co",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0"
-        );
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        const loginForm = document.getElementById('loginForm');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
-        const errorMessage = document.getElementById('errorMessage');
+<script>
+  const supabase = window.supabase.createClient(
+    "https://paflxyknupowugyqkhlz.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0"
+  );
 
-        // Verificación de sesión activa
-        async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                window.location.replace('dashboard.html');
-            }
-        }
-        checkSession();
+  const form = document.getElementById("login-form");
 
-        // Manejo del formulario de inicio de sesión
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            
-            // Estado de carga
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Verificando...';
-            errorMessage.style.display = 'none';
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            // Autenticación con Supabase
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-            if (error) {
-                // Mostrar error
-                errorMessage.textContent = error.message;
-                errorMessage.style.display = 'block';
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Ingresar';
-            } else {
-                // Redirigir al dashboard
-                window.location.replace('dashboard.html');
-            }
-        });
-    </script>
-</body>
-</html>
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.log(error.message);
+    } else {
+      window.location.href = "dashboard.html";
+    }
+  });
+</script>
