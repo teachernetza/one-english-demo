@@ -121,7 +121,15 @@
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    const supabase = createClient("AQUI_VA_PROJECT_URL", "AQUI_VA_ANON_KEY");
+    // ========================================================================
+    // CONFIGURACIÓN DE SUPABASE: PEGA TUS CLAVES AQUÍ
+    // Reemplaza los textos entre comillas con los datos de tu Project API
+    // ========================================================================
+    const supabaseUrl = "https://paflxyknupowugyqkhlz.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0";
+    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    // ========================================================================
 
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
