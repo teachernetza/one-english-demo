@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guías de Estudio</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        #loader {
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: var(--text-muted);
+        }
+
+        .container {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        h1 { margin: 0; }
+
+        .guide-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .guide-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .guide-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary);
+        }
+
+        .guide-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .btn-read {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">Verificando acceso...</div>
+
+    <div class="container" id="app-content">
+        <div class="top-bar">
+            <h1>Guías de Estudio</h1>
+            <a href="dashboard.html" class="btn-back">← Volver</a>
+        </div>
+
+        <div class="guide-list">
+            <div class="guide-card">
+                <div>
+                    <h3>Guía 1: Estructuras Básicas (Present Simple)</h3>
+                    <p>Revisión de gramática fundamental para nivel introductorio.</p>
+                </div>
+                <button class="btn-read">Leer</button>
+            </div>
+
+            <div class="guide-card">
+                <div>
+                    <h3>Guía 2: Preparación TOEFL ITP (Nivel 2)</h3>
+                    <p>Vocabulario esencial y estrategias de comprensión lectora.</p>
+                </div>
+                <button class="btn-read">Leer</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabaseUrl = "AQUI_VA_PROJECT_URL";
+        const supabaseAnonKey = "AQUI_VA_ANON_KEY";
+        const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+        const loader = document.getElementById('loader');
+        const appContent = document.getElementById('app-content');
+
+        async function checkAuth() {
+            const { data, error } = await supabase.auth.getUser();
+            if (error || !data.user) {
+                window.location.replace('index.html');
+            } else {
+                loader.style.display = 'none';
+                appContent.style.display = 'block';
+            }
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
