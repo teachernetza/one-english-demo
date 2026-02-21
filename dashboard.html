@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --error: #ef4444;
+            --error-hover: #dc2626;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: var(--text-color);
+        }
+        .container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        p {
+            margin-bottom: 2rem;
+            color: #4b5563;
+        }
+        span#userEmail {
+            font-weight: bold;
+            color: #111827;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--error);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: var(--error-hover);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="display: none;" id="contentDiv">
+    <h2>Bienvenido al Dashboard</h2>
+    <p>Sesión iniciada como:<br><span id="userEmail">Cargando...</span></p>
+    <button id="btnLogout">Cerrar Sesión</button>
+</div>
+
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const supabase = createClient("AQUI_VA_PROJECT_URL", "AQUI_VA_ANON_KEY");
+
+    const contentDiv = document.getElementById('contentDiv');
+    const userEmailSpan = document.getElementById('userEmail');
+    const btnLogout = document.getElementById('btnLogout');
+
+    // Verificar sesión al cargar
+    async function checkAuth() {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error || !session) {
+            // No hay sesión activa, redirigir al login
+            window.location.replace('index.html');
+        } else {
+            // Hay sesión, mostrar contenido y email
+            userEmailSpan.textContent = session.user.email;
+            contentDiv.style.display = 'block';
+        }
+    }
+
+    checkAuth();
+
+    // Cerrar sesión
+    btnLogout.addEventListener('click', async () => {
+        btnLogout.disabled = true;
+        btnLogout.textContent = 'Cerrando sesión...';
+        
+        await supabase.auth.signOut();
+        window.location.replace('index.html');
+    });
+</script>
+
+</body>
+</html>
