@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Worksheet</title>
+    <title>Worksheet Book 1: Lessons 1-2</title>
     <style>
         /* ==========================================================================
            ELEGANT COLOR PALETTE & VARIABLES
            ========================================================================== */
         :root {
-            --bg-color: #f4f7f6; /* Soft, elegant light gray */
+            --bg-color: #f4f7f6;
             --card-bg: #ffffff;
-            --text-main: #1e293b; /* Slate 800 */
-            --text-muted: #64748b; /* Slate 500 */
-            --primary: #4f46e5; /* Elegant Indigo */
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
             --primary-hover: #4338ca;
-            --accent: #ec4899; /* Soft pink for subtle highlights */
             --border: #e2e8f0;
             --input-bg: #f8fafc;
+            --section-bg: #fdfdfd;
         }
 
         body {
@@ -61,23 +61,22 @@
         }
 
         .container {
-            display: none; /* Hidden until auth is verified */
+            display: none;
             width: 100%;
-            max-width: 700px;
+            max-width: 800px;
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         /* ==========================================================================
-           BANNERS & BRANDING
+           BANNERS & TOP BAR
            ========================================================================== */
         .brand-banner {
             width: 100%;
             height: auto;
-            max-height: 120px;
-            object-fit: contain;
+            max-height: 140px;
+            object-fit: cover;
             border-radius: 12px;
             margin-bottom: 2rem;
-            background-color: var(--card-bg); /* Fallback background */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             display: block;
         }
@@ -100,30 +99,30 @@
             transition: color 0.3s ease;
         }
 
-        .btn-back:hover {
-            color: var(--primary);
-        }
+        .btn-back:hover { color: var(--primary); }
 
         /* ==========================================================================
-           WORKSHEET CARD & INPUTS
+           WORKSHEET CARD & SECTIONS
            ========================================================================== */
         .worksheet-card {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 3rem 2.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(255,255,255,0.5);
         }
 
         .worksheet-header {
             text-align: center;
             margin-bottom: 3rem;
+            border-bottom: 2px dashed var(--border);
+            padding-bottom: 2rem;
         }
 
         .worksheet-title {
             margin: 0 0 0.5rem 0;
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 800;
             color: var(--primary);
             letter-spacing: -0.02em;
         }
@@ -131,66 +130,114 @@
         .worksheet-subtitle {
             margin: 0;
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
-        .question-group {
-            margin-bottom: 2.5rem;
+        .activity-section {
+            background: var(--section-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
             opacity: 0;
             animation: slideUp 0.6s ease forwards;
         }
 
-        /* Staggered animation delays for elements */
-        .question-group:nth-child(1) { animation-delay: 0.1s; }
-        .question-group:nth-child(2) { animation-delay: 0.2s; }
-        .question-group:nth-child(3) { animation-delay: 0.3s; }
+        .activity-section:nth-child(1) { animation-delay: 0.1s; }
+        .activity-section:nth-child(2) { animation-delay: 0.2s; }
+        .activity-section:nth-child(3) { animation-delay: 0.3s; }
+        .activity-section:nth-child(4) { animation-delay: 0.4s; }
 
-        .prompt-label {
-            display: block;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+        .activity-title {
+            font-size: 1.25rem;
+            font-weight: 700;
             color: var(--text-main);
-            line-height: 1.5;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .prompt-highlight {
+        .activity-instructions {
             color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
             font-style: italic;
         }
 
-        .custom-input, .custom-textarea {
+        /* ==========================================================================
+           INPUT STYLES (INLINE & BLOCK)
+           ========================================================================== */
+        .sentence-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sentence-list li {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            line-height: 2;
+        }
+
+        /* Input for fill-in-the-blanks */
+        .inline-input {
+            width: 70px;
+            padding: 0.2rem 0.5rem;
+            margin: 0 0.5rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: var(--primary);
+            background-color: var(--input-bg);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        /* Wider input for sentences */
+        .inline-input.wide {
+            width: 140px;
+        }
+
+        .inline-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            width: 90px;
+        }
+
+        .inline-input.wide:focus { width: 160px; }
+
+        .custom-textarea {
             width: 100%;
             background-color: var(--input-bg);
             border: 2px solid var(--border);
             border-radius: 10px;
             padding: 1rem;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: var(--text-main);
             box-sizing: border-box;
             transition: all 0.3s ease;
             font-family: inherit;
-        }
-
-        .custom-textarea {
             resize: vertical;
             min-height: 120px;
+            line-height: 1.5;
         }
 
-        .custom-input:focus, .custom-textarea:focus {
+        .custom-textarea:focus {
             outline: none;
             border-color: var(--primary);
             background-color: #ffffff;
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
         }
 
-        .custom-input::placeholder, .custom-textarea::placeholder {
-            color: #cbd5e1;
-            font-weight: 400;
-        }
-
         /* ==========================================================================
-           SUBMIT BUTTON
+           BUTTONS & MESSAGES
            ========================================================================== */
         .btn-submit {
             width: 100%;
@@ -199,7 +246,7 @@
             border: none;
             padding: 1.25rem;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: bold;
             letter-spacing: 0.05em;
             cursor: pointer;
@@ -219,80 +266,99 @@
         .success-message {
             display: none;
             text-align: center;
-            padding: 2rem;
-            background-color: #dcfce7;
+            padding: 2.5rem;
+            background-color: #f0fdf4;
             color: #166534;
-            border-radius: 10px;
+            border: 2px solid #bbf7d0;
+            border-radius: 12px;
             margin-top: 2rem;
+            font-size: 1.2rem;
             font-weight: 600;
             animation: fadeIn 0.5s ease;
         }
-
     </style>
 </head>
 <body>
 
-    <div id="loader">Verifying session...</div>
+    <div id="loader">Loading Worksheet...</div>
 
     <div class="container" id="app-content">
         
-        <img class="brand-banner" src="AQUI_PONES_EL_LINK_DE_TU_LOGO_O_BANNER.png" alt="Company Logo Banner" onerror="this.style.display='none'">
+        <img class="brand-banner" src="AQUI_PONES_EL_LINK_DE_TU_LOGO_O_BANNER.png" alt="One English Banner" onerror="this.style.display='none'">
 
         <div class="top-bar">
             <a href="dashboard.html" class="btn-back">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to Dashboard
             </a>
-            <span style="color: var(--text-muted); font-size: 0.9rem;" id="userEmailDisplay"></span>
+            <span style="color: var(--text-muted); font-size: 0.9rem;" id="studentInfo"></span>
         </div>
 
         <main class="worksheet-card">
             <div class="worksheet-header">
-                <h1 class="worksheet-title">Daily Expressions</h1>
-                <p class="worksheet-subtitle">Read the prompts carefully and write your answers below.</p>
+                <h1 class="worksheet-title">Lessons 1-2</h1>
+                <p class="worksheet-subtitle">Book 1 • Please complete all activities.</p>
             </div>
 
-            <form id="worksheetForm">
+            <form id="worksheetForm" autocomplete="off">
                 
-                <div class="question-group">
-                    <label class="prompt-label" for="q1">
-                        1. Complete the sentence using the correct form of the verb: <br>
-                        <span class="prompt-highlight">"By the time we arrive, she _____ (finish) the presentation."</span>
-                    </label>
-                    <input type="text" id="q1" class="custom-input" required placeholder="Type the missing word(s) here...">
+                <div class="activity-section">
+                    <h2 class="activity-title">Activity 1: Complete the Sentences</h2>
+                    <p class="activity-instructions">Fill in the blanks with am, is, or are.</p>
+                    <ul class="sentence-list">
+                        <li>1. I <input type="text" class="inline-input" required> from Brazil.</li>
+                        <li>2. She <input type="text" class="inline-input" required> my best friend.</li>
+                        <li>3. They <input type="text" class="inline-input" required> students.</li>
+                        <li>4. You <input type="text" class="inline-input" required> in my class.</li>
+                        <li>5. We <input type="text" class="inline-input" required> happy today.</li>
+                    </ul>
                 </div>
 
-                <div class="question-group">
-                    <label class="prompt-label" for="q2">
-                        2. Rewrite the following sentence in the passive voice: <br>
-                        <span class="prompt-highlight">"The teacher grades the exams every Friday."</span>
-                    </label>
-                    <input type="text" id="q2" class="custom-input" required placeholder="Type your sentence here...">
+                <div class="activity-section">
+                    <h2 class="activity-title">Activity 3: Dialogue Practice</h2>
+                    <p class="activity-instructions">Complete the conversation with is, are, am.</p>
+                    <ul class="sentence-list">
+                        <li><strong>A:</strong> Hi! I <input type="text" class="inline-input" required> David. What's your name?</li>
+                        <li><strong>B:</strong> Hello! I <input type="text" class="inline-input" required> Maria.</li>
+                        <li><strong>A:</strong> Nice to meet you, Maria. Where <input type="text" class="inline-input" required> you from?</li>
+                        <li><strong>B:</strong> I <input type="text" class="inline-input" required> from Spain.</li>
+                    </ul>
                 </div>
 
-                <div class="question-group">
-                    <label class="prompt-label" for="q3">
-                        3. Open prompt: <br>
-                        <span style="font-weight: 400; color: var(--text-muted); font-size: 1rem;">Describe your ideal working environment. Use at least 3 adjectives and write a minimum of 2 sentences.</span>
-                    </label>
-                    <textarea id="q3" class="custom-textarea" required placeholder="Start typing your paragraph here..."></textarea>
+                <div class="activity-section">
+                    <h2 class="activity-title">Activity 5: Complete the Sentences</h2>
+                    <p class="activity-instructions">Fill in with There is or There are.</p>
+                    <ul class="sentence-list">
+                        <li>1. <input type="text" class="inline-input wide" required> a sofa in the living room.</li>
+                        <li>2. <input type="text" class="inline-input wide" required> three chairs in the kitchen.</li>
+                        <li>3. <input type="text" class="inline-input wide" required> a big bed in my bedroom.</li>
+                        <li>4. <input type="text" class="inline-input wide" required> two windows in the living room.</li>
+                    </ul>
                 </div>
 
-                <button type="submit" class="btn-submit" id="submitBtn">Submit Worksheet</button>
+                <div class="activity-section">
+                    <h2 class="activity-title">Activity 4: Write About Yourself</h2>
+                    <p class="activity-instructions">Write 3-4 sentences to introduce yourself. (Example: Hello! I am Ana. I am from Mexico...)</p>
+                    <textarea class="custom-textarea" required placeholder="Hello! I am..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">Submit Answers</button>
             </form>
 
             <div id="successMessage" class="success-message">
-                Excellent! Your answers have been successfully submitted.
+                🎉 Great job! Your worksheet has been submitted successfully.
             </div>
         </main>
         
-        </div>
+        <img class="brand-banner" src="AQUI_PONES_LINK_DEL_BANNER_FOOTER.png" style="margin-top: 2rem; margin-bottom: 0;" alt="Footer Banner" onerror="this.style.display='none'">
+
+    </div>
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
         // ========================================================================
-        // CONFIGURACIÓN DE SUPABASE: PEGA TUS CLAVES AQUÍ
+        // CONFIGURACIÓN DE SUPABASE
         // ========================================================================
         const supabaseUrl = "https://paflxyknupowugyqkhlz.supabase.co";
         const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmx4eWtudXBvd3VneXFraGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Mzc0MTQsImV4cCI6MjA4NzIxMzQxNH0.CIF0Lo6FXBsS81eWAJoXHBCodF0GLJ1gZjvA5u6TIr0";
@@ -304,39 +370,35 @@
         const form = document.getElementById('worksheetForm');
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
-        const userEmailDisplay = document.getElementById('userEmailDisplay');
+        const studentInfo = document.getElementById('studentInfo');
 
-        // Check Authentication
-        async function checkAuth() {
+        async function init() {
             const { data, error } = await supabase.auth.getUser();
             if (error || !data.user) {
                 window.location.replace('index.html');
             } else {
                 loader.style.display = 'none';
                 appContent.style.display = 'block';
-                userEmailDisplay.textContent = data.user.email; // Optional: shows who is logged in
+                // Muestra el correo del estudiante logueado arriba a la derecha
+                studentInfo.textContent = `Student: ${data.user.email}`; 
             }
         }
 
-        checkAuth();
+        init();
 
-        // Handle Form Submission
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Visual feedback for submission
-            submitBtn.innerHTML = "Submitting...";
+            submitBtn.innerHTML = "Submitting securely...";
             submitBtn.style.opacity = "0.7";
             submitBtn.disabled = true;
 
-            // Simulate network request delay for fluid animation feel
             setTimeout(() => {
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
-                
-                // You can add logic here to actually send data to Supabase database later
-                // const answers = { q1: q1.value, q2: q2.value, q3: q3.value };
-            }, 800);
+                // Scroll to top of the card smoothly
+                window.scrollTo({ top: document.querySelector('.worksheet-card').offsetTop - 50, behavior: 'smooth' });
+            }, 1000);
         });
     </script>
 </body>
