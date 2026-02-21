@@ -1,0 +1,215 @@
+/* ===================================
+   ONE ENGLISH — DESIGN SYSTEM v1
+=================================== */
+
+/* ===== VARIABLES ===== */
+:root {
+  --primary: #2C4A84;
+  --primary-dark: #1F3A6D;
+  --accent: #2FA3C1;
+  --background: #F2F4F7;
+  --surface: #FFFFFF;
+  --text-dark: #1E293B;
+  --text-light: #64748B;
+  --border: #E2E8F0;
+  --danger: #DC2626;
+  --success: #16A34A;
+  --warning: #D97706;
+}
+
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--surface);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.logo {
+  height: 50px;
+}
+
+.logout-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+}
+
+.card h3 {
+  margin-bottom: 0.8rem;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background: var(--primary);
+}
+
+.btn-danger {
+  background: var(--danger);
+}
+
+/* ===== INPUTS ===== */
+.input-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-light);
+}
+
+input, select {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary);
+}
+
+/* ===== BADGES ===== */
+.badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-pending {
+  background: #FFF4E5;
+  color: var(--warning);
+}
+
+.badge-reviewed {
+  background: #DCFCE7;
+  color: var(--success);
+}
+
+.badge-expired {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+/* ===== LOGIN PAGE ===== */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--border);
+}
+
+.login-card img {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  height: 70px;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== TABLE (for admin later) ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+tr:hover {
+  background: #F8FAFC;
+}
